@@ -85,6 +85,7 @@ class Utilisateur {
             $this->setPassword($row ['password']);
             $this->setPhone($row ['phone']);
             $this->setRole($row ['role']);
+            $this->setDate($row ['date_incribt']);
         }
     }
     public function logout(){
@@ -111,7 +112,8 @@ class Utilisateur {
                     // header('Location: );
                     // exit;
                     echo 'student';
-                    }
+                    }else 
+                    header("Location : ../generalPages/401.php");
                 }
                 elseif($row['role']=="teacher"){
                     $stmtStudent = $connect->getConnect()->prepare("select ban  from teacher  where ban = 0");
@@ -119,10 +121,39 @@ class Utilisateur {
                     // header('Location:');
                     // exit;
                     echo 'teacher';
-                    }
+                    }else 
+                    header("Location : ../generalPages/401.php");
                 }else echo "in role";
             }else echo "in password";
         }else echo "in email";
+    }
+    public function signUp(){
+        $connect = new Connect();
+        $stmt = $connect->getConnect()->prepare("select *  from  utilisateur where email = :email");
+        $email = $this->getEmail();
+        $stmt->bindParam(":email",$email);
+        $stmt->execute();
+        if(!($row = $stmt->fetch(PDO::FETCH_ASSOC))){
+            $name = $this->getName();
+            $firstName = $this->getFirstName();
+            $email = $this->getEmail();
+            $role = $this->getRole();
+            $date = $this->getDate();
+            $phone =$this->getPhone();
+            $password = $this->getPassword();
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            $stmt =$connect->getConnect()->prepare("insert into utilisateur (name ,firstName ,email, phone, role ,password, date_incribt) values ( :name , :firstName , :email , :phone ,:role, :password , :date)");
+            $stmt->bindParam(":name", $name,PDO::PARAM_STR); 
+            $stmt->bindParam(":firstName", $firstName ,PDO::PARAM_STR);
+            $stmt->bindParam(":email", $email ,PDO::PARAM_STR);
+            $stmt->bindParam(":phone", $phone ,PDO::PARAM_STR);
+            $stmt->bindParam(":role", $role ,PDO::PARAM_STR);
+            $stmt->bindParam(":password", $password ,PDO::PARAM_STR); 
+            $stmt->bindParam(":date", $date ,PDO::PARAM_STR);
+            $stmt->execute();
+            header("Location: login.php");
+            exit;
+        }
     }
 
    
