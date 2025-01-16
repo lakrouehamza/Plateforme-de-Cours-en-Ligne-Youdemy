@@ -87,9 +87,44 @@ class Utilisateur {
             $this->setRole($row ['role']);
         }
     }
+    public function logout(){
+        session_unset();
+        session_destroy();
+    }
     public function login(){
         $connect = new Connect();
-        
+        $stmt = $connect->getConnect()->prepare("select * from utilisateur  where email = :email");
+        $email = $this->getEmail();
+        $stmt->bindParam(":email",$email);
+        $stmt->execute();
+        if($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            if (password_verify($this->getPassword(), $row['password'])) {
+                $this->setRole($row['role']);
+                $this->setSession();
+                if($row['role']=="admin"){
+                    // header('Location: ');
+                    // exit;
+                }
+                elseif($row['role']=="student"){
+                    $stmtStudent = $connect->getConnect()->prepare("select ban  from student  where ban = 0");
+                    if($rowStudent = $stmtStudent->fetch(PDO::FETCH_ASSOC) ){
+                    // header('Location: );
+                    // exit;
+                    echo 'student';
+                    }
+                }
+                elseif($row['role']=="teacher"){
+                    $stmtStudent = $connect->getConnect()->prepare("select ban  from teacher  where ban = 0");
+                    if($rowStudent = $stmtStudent->fetch(PDO::FETCH_ASSOC) ){
+                    // header('Location:');
+                    // exit;
+                    echo 'teacher';
+                    }
+                }else echo "in role";
+            }else echo "in password";
+        }else echo "in email";
     }
+
+   
 }
 ?>
