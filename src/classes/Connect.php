@@ -14,6 +14,9 @@ class Connect{
     public function getConnect() :PDO{
         return $this->connect;
     }
+    public function __destruct(){
+        $this->connect = null;
+    }
     
 }
 ?>
