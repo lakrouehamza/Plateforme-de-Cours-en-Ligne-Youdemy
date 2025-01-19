@@ -1,23 +1,33 @@
 <?php
 require_once("Category.php");   
 require_once("User.php"); 
-require_once("Tages.php");  
+require_once("Tags.php");  
 class Admin extends User {
     public function createCategory($category){
         if($category instanceof Category){
             $connect = new Connect();
             $name =  $category->getName();
-            $stmt =  $connect->getConnect()->prepare("insert into  category (name) values(:name);");
+            $image = $category->getImage();
+            $desc =  $category->getDesc();
+            $stmt =  $connect->getConnect()->prepare("insert into  category (name,description,image) values(:name , :desc , :img);");
             $stmt->bindParam(":name",$name,PDO::PARAM_STR);
+            $stmt->bindParam(":desc",$desc,PDO::PARAM_STR);
+            $stmt->bindParam(":img",$image,PDO::PARAM_STR);
+            $stmt->execute();
         }
     }
-    public function createTages($tages){
-        if($tages instanceof Tages){
+    public function createTags($tags){
+        if($tags instanceof Tags){
             $connect =  new Connect();
-            $name =  $tages->getName();
-            $stmt =  $connect->getConnect()->prepare("insert into  tages (name) values(:name);");
+            $name =  $tags->getName();
+            $stmt =  $connect->getConnect()->prepare("insert into tags(name) values(:name);");
             $stmt->bindParam(":name",$name,PDO::PARAM_STR);
+            $stmt->execute();
         }
+    }
+    public function getAllTags(){
+        $connect =  new Connect ();
+        $stmt =  $connect->getConnect()->prepare("select *  from ");
     }
 }
 
