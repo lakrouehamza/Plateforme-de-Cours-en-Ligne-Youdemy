@@ -1,3 +1,30 @@
+<?php
+include './../../classes/User.php';
+$user = new User();
+
+if (
+    isset($_POST['name'], $_POST['firstName'], $_POST['email'], $_POST['role'], 
+    $_POST['phone'], $_POST['password'], $_POST['image'], $_POST['signUp'])
+) {
+    // Sanitize input data
+    $name = htmlspecialchars($_POST['name']);
+    $firstName = htmlspecialchars($_POST['firstName']);
+    $email = htmlspecialchars($_POST['email']);
+    $role = htmlspecialchars($_POST['role']);
+    $phone = htmlspecialchars($_POST['phone']);
+    $password = htmlspecialchars($_POST['password']);
+    $image = htmlspecialchars($_POST['image']);
+    $user->setName($name);
+    $user->setFirstName($firstName);
+    $user->setEmail($email);
+    $user->setRole($role);
+    $user->setPhone($phone);
+    $user->setImage($image);
+    $user->setPassword($password);
+    $user->signUp();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,10 +58,14 @@
                             <input
                                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                 type="text" placeholder="First name" name="firstName" />
-                            <label for="email" >Email</label>
+                                <label for="email" >Email</label>
                             <input
                                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                 type="email" placeholder="Email" name="email" />
+                                <label for="image" >Image</label>
+                            <input
+                                class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                type="file"  name="image" />
                             <label for="Phone number" >Phone number</label>
                             <input
                                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -55,7 +86,7 @@
                             <input
                                 class="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                                 name="verifyPassword" type="password" placeholder="verify Password" /> -->
-                            <button
+                            <button name="signUp" type="submit"
                                 class="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                 <svg class="w-6 h-6 -ml-2" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -82,14 +113,14 @@
                 </form>
             </div>
         </div>
-        <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
+        <div class="flex-1  bg-indigo-100 text-center hidden lg:flex">
             <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
                 style="background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');">
             </div>
         </div>
     </div>
 </div>
-<script src="../../assets/js/validationFormSignUp.js">
+<!-- <script src="../../assets/js/validationFormSignUp.js"> -->
     
 </script>
 </body>
