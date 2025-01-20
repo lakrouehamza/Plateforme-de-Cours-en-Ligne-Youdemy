@@ -25,9 +25,17 @@ class Admin extends User {
             $stmt->execute();
         }
     }
-    public function getAllTags(){
+    public function getAllTags():PDOStatement{
         $connect =  new Connect ();
-        $stmt =  $connect->getConnect()->prepare("select *  from ");
+        $stmt =  $connect->getConnect()->prepare("select *  from tags");
+        $stmt->execute();
+        return $stmt;
+    }
+    public function getAllCategory():PDOStatement{
+        $connect = new Connect();
+        $stmt =  $connect->getConnect()->prepare("select *  from category");
+        $stmt->execute();
+        return $stmt;
     }
 }
 
