@@ -3,6 +3,7 @@ class Cours{
     private int $id;
     private String $name ;
     private String $description ;
+    private String $content;
     public function __construct(){}
     public function __destruct()
     {
@@ -17,6 +18,12 @@ class Cours{
     public function getDesc(){
         return $this->description;
     }
+    public function getContent(){
+        return  $this->content;
+    }
+    public function setContent($content){
+        $this->content =$content;
+    }
     public function  setId($id){
         $this->id = $id;
     }
@@ -26,7 +33,7 @@ class Cours{
     public function setDesc($description){
         $this->description = $description;
     }
-    public function rempil(){
+    public function getDonnesCours(){
         $id =  $this->id;
         $connect =  new Connect();
         $stmt = $connect->getConnect()->prepare("select *  from  cours where id = :id");
